@@ -20,7 +20,7 @@ while lives > 0:
 		print("You've Won!!")
 		break
 
-	guess = input("Guess a letter:")
+	guess = input("Guess a letter:").lower()
 	if guess in "abcçdefgğhıijklmnoöprsştuüvyzqwx" and len(guess) != 0:
 	
 		empty_guess_list += guess
