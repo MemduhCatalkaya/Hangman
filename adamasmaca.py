@@ -20,24 +20,42 @@ restart_and_hint_frame = tk.Frame(bg=BG)
 restart_and_hint_frame.pack()
 
 
-anime_list = ["death note", "naruto", "attack on titans", "no game no life",
-              "sword art online", "one punch man", "deadman wonderland", "bleach",
-              "one piece", "fullmetal alchemist", "my hero academia", "jujutsu kaisen",
-              "code geass", "dragon ball"]
+country_list = ['afghanistan', 'albania', 'algeria', 'andorra', 'angola', 'argentina',
+                'armenia', 'australia', 'austria', 'azerbaijan', 'bahamas', 'bahrain',
+                'bangladesh', 'belarus', 'belgium', 'bermuda', 'bosnia and herzegovina',
+                'brazil', 'bulgaria', 'cambodia', 'canada', 'chile', 'china', 'colombia',
+                'congo', 'costa rica', 'croatia', 'cuba', 'cyprus', 'czech republic',
+                'denmark', 'dominica', 'dominican republic', 'ecuador', 'egypt', 'el salvador',
+                'estonia', 'ethiopia', 'fiji', 'finland', 'france', 'french polynesia', 'georgia',
+                'germany', 'ghana', 'greece', 'greenland', 'grenada', 'guatemala', 'haiti',
+                'hong kong', 'hungary', 'iceland', 'india', 'indonesia', 'iran', 'iraq',
+                'ireland', 'israel', 'italy', 'jamaica', 'japan', 'kazakhstan', 'kenya',
+                'south korea', 'kuwait', 'lebanon', 'libya', 'liechtenstein', 'lithuania',
+                'luxembourg', 'macedonia', 'madagascar', 'malaysia', 'maldives', 'mali',
+                'malta', 'marshall islands', 'mauritania', 'mexico', 'monaco', 'mongolia',
+                'montenegro', 'morocco', 'mozambique', 'nepal', 'netherlands', 'new zealand',
+                'nicaragua', 'nigeria', 'norway', 'oman', 'pakistan', 'palestine', 'panama',
+                'papua new guinea', 'paraguay', 'peru', 'philippines', 'poland', 'portugal',
+                'puerto rico', 'qatar', 'romania', 'russian federation', 'san marino', 'saudi arabia',
+                'senegal', 'serbia', 'seychelles', 'singapore', 'slovakia', 'slovenia', 'somalia',
+                'south africa', 'spain', 'sri lanka', 'sudan', 'sweden', 'switzerland', 'tajikistan',
+                'thailand', 'tunisia', 'turkey', 'turkmenistan', 'uganda', 'ukraine', 'united arab emirates',
+                'united kingdom', 'united states', 'uruguay', 'uzbekistan', 'venezuela', 'yemen',
+                'zambia', 'zimbabwe']
 
 Letter_List = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
                "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
-random_anime = random.choice(anime_list)
+random_country = random.choice(country_list)
 
-hint_set = set(["ç" if x == " " else x for x in random_anime])
+hint_set = set(["ç" if x == " " else x for x in random_country])
 hint_set.add("ç")
 hint_set.remove("ç")
 hint_list = list(hint_set)
 
 
-hidden_anime_list = ["  " if letter == " " else "□" for letter in random_anime]
-hidden_anime = "".join(hidden_anime_list)
+hidden_country_list = ["  " if letter == " " else "□" for letter in random_country]
+hidden_country = "".join(hidden_country_list)
 
 
 def button_click(b):
@@ -47,23 +65,23 @@ def button_click(b):
             button["text"] = ""
             button["bg"] = BG
             button["borderwidth"] = 0
-    global hidden_anime_list, hidden_anime, LIVES, hint_list
-    if b in random_anime:
-        for ix, letter in enumerate(random_anime):
+    global hidden_country_list, hidden_country, LIVES, hint_list
+    if b in random_country:
+        for ix, letter in enumerate(random_country):
             if letter == b:
-                hidden_anime_list[ix] = b
-        hidden_anime = "".join(hidden_anime_list)
-        anime_label.config(text=hidden_anime)
+                hidden_country_list[ix] = b
+        hidden_country = "".join(hidden_country_list)
+        anime_label.config(text=hidden_country)
         hint_list.remove(b)
     else:
         LIVES -= 1
-        lives_label.config(text=f"You have {LIVES} lives! Guess the anime name.")
+        lives_label.config(text=f"You have {LIVES} lives! Guess the country name.")
     if LIVES == 0:
-        lives_label.config(text=f"You've Lost! The anime was '{random_anime}'")
+        lives_label.config(text=f"You've Lost! The country was '{random_country}'")
         hint_button["state"] = "disabled"
         for button in button_frame.winfo_children():
             button["state"] = "disabled"
-    if "□" not in hidden_anime_list:
+    if "□" not in hidden_country_list:
         lives_label.config(text=f"You've WON!! Your Score is {LIVES*1000}!")
         hint_button["state"] = "disabled"
         for button in button_frame.winfo_children():
@@ -71,19 +89,19 @@ def button_click(b):
 
 
 def restart_click():
-    global LIVES, random_anime, hidden_anime
-    global anime_label, lives_label, hidden_anime_list, hint_list, hint_set
+    global LIVES, random_country, hidden_country
+    global anime_label, lives_label, hidden_country_list, hint_list, hint_set
     LIVES = 7
     global Buttons
-    random_anime = random.choice(anime_list)
-    hidden_anime_list = ["  " if letter == " " else "□" for letter in random_anime]
-    hidden_anime = "".join(hidden_anime_list)
-    hint_set = set(["ç" if x == " " else x for x in random_anime])
+    random_country = random.choice(country_list)
+    hidden_country_list = ["  " if letter == " " else "□" for letter in random_country]
+    hidden_country = "".join(hidden_country_list)
+    hint_set = set(["ç" if x == " " else x for x in random_country])
     hint_set.add("ç")
     hint_set.remove("ç")
     hint_list = list(hint_set)
-    lives_label.config(text=f"You have {LIVES} lives! Guess the anime name.")
-    anime_label.config(text=hidden_anime)
+    lives_label.config(text=f"You have {LIVES} lives! Guess the country name.")
+    anime_label.config(text=hidden_country)
     hint_button["state"] = "normal"
     for ix2, letter in enumerate(Letter_List):
         Buttons = tk.Button(button_frame, text=letter.upper(), borderwidth=5, bg=BUTTON_BG, width=5,
@@ -98,12 +116,14 @@ def hint_click():
     hint_button["state"] = "disabled"
 
 
-lives_label = tk.Label(game_frame, text=f"You have {LIVES} lives! Guess the anime name.",
+lives_label = tk.Label(game_frame, text=f"You have {LIVES} lives! Guess the country name.",
                        bg=BG, font=("Times", 20, "italic", "bold"))
 lives_label.pack()
 
-anime_label = tk.Label(game_frame, bg=BG, text=hidden_anime, font=("Times", 35, "italic"))
+anime_label = tk.Label(game_frame, bg=BG, text=hidden_country, font=("Times", 35, "italic"))
 anime_label.pack()
+
+#  Buttons
 
 for i, letter in enumerate(Letter_List):
     Buttons = tk.Button(button_frame, text=letter.upper(), borderwidth=5, bg=BUTTON_BG, width=5,
