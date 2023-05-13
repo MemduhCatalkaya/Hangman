@@ -88,25 +88,42 @@ def button_click(b):
             button["state"] = "disabled"
 
 
+def game_over():
+    for button in button_frame.winfo_children():
+        button["state"] = "disabled"
+    hint_button["state"] = "disabled"
+    restart_button["state"] = "disabled"
+    lives_label.config(text="GAME OVER!!")
+    anime_label.config(text="")
+
+
 def restart_click():
-    global LIVES, random_country, hidden_country
+
+    global LIVES, random_country, hidden_country, button_frame
     global anime_label, lives_label, hidden_country_list, hint_list, hint_set
     LIVES = 7
-    global Buttons
-    random_country = random.choice(country_list)
-    hidden_country_list = ["  " if letter == " " else "□" for letter in random_country]
-    hidden_country = "".join(hidden_country_list)
-    hint_set = set(["ç" if x == " " else x for x in random_country])
-    hint_set.add("ç")
-    hint_set.remove("ç")
-    hint_list = list(hint_set)
-    lives_label.config(text=f"You have {LIVES} lives! Guess the country name.")
-    anime_label.config(text=hidden_country)
-    hint_button["state"] = "normal"
-    for ix2, letter in enumerate(Letter_List):
-        Buttons = tk.Button(button_frame, text=letter.upper(), borderwidth=5, bg=BUTTON_BG, width=5,
-                            height=2, command=lambda l=letter: button_click(l))
-        Buttons.grid(row=ix2 // 6, column=ix2 % 6, pady=2, padx=2)
+
+    if len(country_list) > 1:
+
+        country_list.remove(random_country)
+        random_country = random.choice(country_list)
+        hidden_country_list = ["  " if letter == " " else "□" for letter in random_country]
+        hidden_country = "".join(hidden_country_list)
+        hint_set = set(["ç" if x == " " else x for x in random_country])
+        hint_set.add("ç")
+        hint_set.remove("ç")
+        hint_list = list(hint_set)
+        lives_label.config(text=f"You have {LIVES} lives! Guess the country name.")
+        anime_label.config(text=hidden_country)
+        for x, button in enumerate(button_frame.winfo_children()):
+            button["state"] = "normal"
+            button["borderwidth"] = 5
+            button["bg"] = BUTTON_BG
+            button["text"] = Letter_List[x].upper()
+        hint_button["state"] = "normal"
+
+    else:
+        game_over()
 
 
 def hint_click():
